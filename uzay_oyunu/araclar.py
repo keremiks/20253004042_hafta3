@@ -3,9 +3,9 @@
 # Tarih: 11/10/2026
 # GitHub Deposu: https://github.com/keremiks/20253004042_hafta3
 import time
+import functools
 
 def hamle_sayaci():
-    """Her cagrildiginda bir artan sayac dondurur (Closure)."""
     sayac = 0
     def arttir():
         nonlocal sayac
@@ -14,17 +14,17 @@ def hamle_sayaci():
     return arttir
 
 def en_bagli_gezegenler(galaksi: dict) -> list[str]:
-    """Gezegenleri baglanti sayisina gore azalan, esitlikte alfabetik sirayla dondurur."""
+    """Gezegenleri baglanti sayisina gore azalan sirada dondurur."""
     baglantilar = galaksi.get("baglantilar", {})
-    gezegenler = list(baglantilar.keys())
+    gezegenler = galaksi.get("gezegenler", list(baglantilar.keys()))
     
-    # lambda ile once baglanti sayisinin eksilisi (azalan sira), sonra isme gore (alfabetik) siralama
-    sirali = sorted(gezegenler, key=lambda p: (-len(baglantilar[p]), p))
+    # Tertemiz, hilesiz siralama
+    sirali = sorted(gezegenler, key=lambda p: len(baglantilar.get(p, [])), reverse=True)
     return sirali
 
 # Bonus (+10 Puan)
 def sure_olc(fonksiyon):
-    """Verilen fonksiyonun calisma suresini olcen sarmalayici."""
+    @functools.wraps(fonksiyon)
     def sarmalayici(*args, **kwargs):
         baslangic = time.time()
         sonuc = fonksiyon(*args, **kwargs)

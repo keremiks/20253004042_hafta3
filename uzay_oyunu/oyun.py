@@ -30,9 +30,11 @@ def travel() -> None:
     try:
         from uzay_oyunu.galaksi import veri_yukle
         from uzay_oyunu.araclar import hamle_sayaci
+        from uzay_oyunu.akis import yakit_gostergesi
     except ModuleNotFoundError:
         from galaksi import veri_yukle
         from araclar import hamle_sayaci
+        from akis import yakit_gostergesi
     
     galaksi = veri_yukle()
     if not galaksi:
@@ -40,6 +42,9 @@ def travel() -> None:
         
     konum = galaksi.get("konum", "dünya")
     sayac = hamle_sayaci()
+    
+    # Oyunun başında hocanın istediği yakıt göstergesini oluşturuyoruz (100 yakıt, adım başı 5 tüketim)
+    gosterge = yakit_gostergesi(100, 5)
     
     envanter = envanter_metni(True, False, True)
     if envanter:
@@ -65,8 +70,16 @@ def travel() -> None:
         try:
             index = int(secim) - 1
             if 0 <= index < len(hedefler):
+                # Oyuncu geçerli bir yer seçip yola çıktığında yakıtı çekiyoruz
+                try:
+                    kalan_yakit = next(gosterge)
+                except StopIteration:
+                    print("Yakıtın bitti, uzayda sürükleniyorsun...")
+                    break
+                
                 konum = hedefler[index]
                 sayac()
+                print(f"Yolculuk başarılı! Kalan yakıt: {kalan_yakit}")
             else:
                 print("Gecersiz secim!")
         except ValueError:
