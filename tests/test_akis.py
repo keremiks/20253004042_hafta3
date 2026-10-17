@@ -5,7 +5,7 @@ GitHub deposu: https://github.com/keremiks/20253004042_hafta3
 """
 import itertools
 import pytest
-from uzay_oyunu.akis import fibonacci, yakit_gostergesi
+from uzay_oyunu.akis import fibonacci, yakit_gostergesi, satirlari_oku, ayristir, uzun_yolculuklar
 
 def test_fibonacci_ilk_uc():
     """next() ile ilk üç değerin (0, 1, 1) doğru geldiğini test eder."""
@@ -46,3 +46,22 @@ def test_yakit_gostergesi_stopiteration():
     assert next(g) == 0
     with pytest.raises(StopIteration):
         next(g)
+def test_seyir_defteri_boru_hatti(tmp_path):
+    """Görev 3: Boru hattının tembel (generator) çalıştığını ve doğru süzdüğünü test eder."""
+    # Test için geçici bir dosya oluşturuyoruz
+    dosya = tmp_path / "test_seyir.txt"
+    dosya.write_text("dünya -> sirius 12\n#bakım molası\nsirius -> orion 8\n\n", encoding="utf-8")
+    
+    # Boru hattını kur
+    satirlar = satirlari_oku(str(dosya))
+    kayitlar = ayristir(satirlar)
+    uzunlar = uzun_yolculuklar(kayitlar, 10)
+    
+    # 1. Tembellik Testi: Fonksiyonların liste değil üreteç (generator) döndüğünü kontrol et
+    assert iter(satirlar) is satirlar
+    assert iter(kayitlar) is kayitlar
+    assert iter(uzunlar) is uzunlar
+    
+    # 2. Doğruluk Testi: Yorum satırı atlanmalı ve sadece yakıtı 10'dan büyük olan kalmalı
+    sonuc = list(uzunlar)
+    assert sonuc == [("dünya", "sirius", 12)]
