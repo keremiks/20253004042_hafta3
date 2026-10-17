@@ -4,7 +4,8 @@ Numara: 20253004042
 GitHub deposu: https://github.com/keremiks/20253004042_hafta3
 """
 
-from typing import Iterator
+from typing import Iterator 
+from functools import lru_cache
 
 def fibonacci() -> Iterator[int]:
     """
@@ -28,6 +29,7 @@ def yakit_gostergesi(yakit: int, tuketim: int) -> Iterator[int]:
             yield yakit
             break
         yield yakit
+
 def satirlari_oku(yol: str):
     """Boş satırları ve # ile başlayan yorum satırlarını atlayarak okur."""
     with open(yol, "r", encoding="utf-8") as dosya:
@@ -51,3 +53,19 @@ def uzun_yolculuklar(kayitlar, esik: int):
     for kaynak, hedef, yakit in kayitlar:
         if yakit > esik:
             yield (kaynak, hedef, yakit)
+
+def rota_sayaci(baglantilar: dict):
+    """Verilen bağlantılara göre n adımlık rota sayısını hesaplayan fonksiyonu döndürür."""
+    
+    @lru_cache(maxsize=None)
+    def rota_sayisi(gezegen: str, adim: int) -> int:
+        """Gezegenden başlayıp tam 'adim' sayısında biten farklı rota sayısını bulur."""
+        if adim == 0:
+            return 1  # 0 adım kaldıysa hedefe ulaştık demektir (1 geçerli rota)
+            
+        toplam = 0
+        for komsu in baglantilar.get(gezegen, []):
+            toplam += rota_sayisi(komsu, adim - 1)
+        return toplam
+        
+    return rota_sayisi

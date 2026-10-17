@@ -5,7 +5,7 @@ GitHub deposu: https://github.com/keremiks/20253004042_hafta3
 """
 import itertools
 import pytest
-from uzay_oyunu.akis import fibonacci, yakit_gostergesi, satirlari_oku, ayristir, uzun_yolculuklar
+from uzay_oyunu.akis import fibonacci, yakit_gostergesi, satirlari_oku, ayristir, uzun_yolculuklar , rota_sayaci
 
 def test_fibonacci_ilk_uc():
     """next() ile ilk üç değerin (0, 1, 1) doğru geldiğini test eder."""
@@ -65,3 +65,22 @@ def test_seyir_defteri_boru_hatti(tmp_path):
     # 2. Doğruluk Testi: Yorum satırı atlanmalı ve sadece yakıtı 10'dan büyük olan kalmalı
     sonuc = list(uzunlar)
     assert sonuc == [("dünya", "sirius", 12)]
+def test_rota_sayaci():
+    """Görev 4: Önbellekli rota sayacının doğru hesap yaptığını test eder."""
+    baglantilar = {
+        "dünya": ["mars", "venüs"],
+        "mars": ["dünya"],
+        "venüs": ["dünya"]
+    }
+    say = rota_sayaci(baglantilar)
+    
+    # 0 adım
+    assert say("dünya", 0) == 1
+    # 1 adım: dünya -> mars veya dünya -> venüs (2 rota)
+    assert say("dünya", 1) == 2
+    # 2 adım: dünya -> mars -> dünya veya dünya -> venüs -> dünya (2 rota)
+    assert say("dünya", 2) == 2
+    
+    # Lru_cache'in çalıştığını kontrol edelim
+    bilgi = say.cache_info()
+    assert bilgi.misses > 0
