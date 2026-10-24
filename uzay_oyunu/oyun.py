@@ -2,7 +2,7 @@
 # Numara: 20253004042
 # Tarih: 11/10/2026
 # GitHub Deposu: https://github.com/keremiks/20253004042_hafta3
-
+from uzay_oyunu.dekoratorler import log_cagri
 def envanter_metni(credits: bool, engines: bool, copilot: bool) -> str:
     """Oyuncunun esyalarina gore envanter metnini dondurur."""
     esyalar = []
@@ -17,6 +17,7 @@ def envanter_metni(credits: bool, engines: bool, copilot: bool) -> str:
         return ""
     return "Sende: " + ", ".join(esyalar)
 
+@log_cagri
 def hedef_menusu(hedefler: list[str]) -> str:
     """Gidilebilecek hedefleri numaralandirilmis menu seklinde dondurur."""
     satirlar = ["Nereye gitmek istersin?"]

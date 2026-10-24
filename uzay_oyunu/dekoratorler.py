@@ -28,3 +28,19 @@ def say(fonk):
         return fonk(*args, **kwargs)
     sarmalayici.cagri = 0
     return sarmalayici
+def log_cagri(fonk):
+    """Çağrı öncesi ve sonrası bilgileri yazdıran dekoratör."""
+    @wraps(fonk)
+    def sarmalayici(*args, **kwargs):
+        # Argümanları hocanın istediği formata çeviriyoruz
+        arg_listesi = [repr(a) for a in args]
+        kwarg_listesi = [f"{k}={repr(v)}" for k, v in kwargs.items()]
+        tum_arglar = ", ".join(arg_listesi + kwarg_listesi)
+        
+        print(f"-> {fonk.__name__}({tum_arglar})")
+        
+        sonuc = fonk(*args, **kwargs)
+        
+        print(f"<<- {fonk.__name__} {repr(sonuc)}")
+        return sonuc
+    return sarmalayici

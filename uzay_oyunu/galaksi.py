@@ -5,7 +5,8 @@
 
 import json
 import os
-
+from uzay_oyunu.dekoratorler import log_cagri
+@log_cagri
 def galaksi_kur(gezegenler: list[str], baglantilar: dict[str, list[str]], baslangic: str, **kwargs) -> dict:
     """Galaksi haritasini kurar. Baslangic gezegeni listede yoksa ValueError olur."""
     if baslangic not in gezegenler:
