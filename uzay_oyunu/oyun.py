@@ -2,7 +2,9 @@
 # Numara: 20253004042
 # Tarih: 11/10/2026
 # GitHub Deposu: https://github.com/keremiks/20253004042_hafta3
+
 from uzay_oyunu.dekoratorler import log_cagri
+
 def envanter_metni(credits: bool, engines: bool, copilot: bool) -> str:
     """Oyuncunun esyalarina gore envanter metnini dondurur."""
     esyalar = []
@@ -44,7 +46,7 @@ def travel() -> None:
     konum = galaksi.get("konum", "dünya")
     sayac = hamle_sayaci()
     
-    # Oyunun başında hocanın istediği yakıt göstergesini oluşturuyoruz (100 yakıt, adım başı 5 tüketim)
+    
     gosterge = yakit_gostergesi(100, 5)
     
     envanter = envanter_metni(True, False, True)
@@ -67,6 +69,21 @@ def travel() -> None:
             hamle = sayac()
             print(f"Oyunu {hamle} hamlede bitirdin!")
             break
+            
+        # --- GÖREV 4: KOMUT SİSTEMİ BURAYA EKLENDİ ---
+        from uzay_oyunu.komutlar import KOMUTLAR
+        if secim in KOMUTLAR:
+            fonksiyon, _ = KOMUTLAR[secim]
+            oyun_durumu = {
+                "konum": konum,
+                "baglantilar": galaksi.get("baglantilar", {}),
+                "credits": True,
+                "engines": False,
+                "copilot": True
+            }
+            print(fonksiyon(oyun_durumu))
+            continue
+        # --------------------------------------------
             
         try:
             index = int(secim) - 1

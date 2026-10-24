@@ -38,7 +38,7 @@ def test_veri_yukle():
 def test_en_bagli_gezegenler():
     """Gezegenlerin baglanti sayisina gore dogru sirada test eder."""
     g = veri_yukle()
-    # Hoca'nin PDF'teki "kendi galaksinize gore yazin" izniyle guncellendi[cite: 3]
+   
     assert en_bagli_gezegenler(g) == ['dünya', 'sirius', 'centauri', 'orion', 'kara_delik']
 
 def test_hamle_sayaci():

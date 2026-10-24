@@ -32,6 +32,5 @@ def yolculuk(hedef, hiz):
 
 hizli_yolculuk = partial(yolculuk, hiz=3)
 
-# HOCANIN İSTEDİĞİ YORUM SATIRI:
 # Bence liste üreteçleri (list comprehension) ve sum() fonksiyonu, 
 # map, filter ve reduce kullanımına göre çok daha okunaklı ve 'Pythonic' bir yazımdır.s
