@@ -19,3 +19,12 @@ def sure_olc(fonk):
         
         return sonuc
     return sarmalayici
+
+def say(fonk):
+    """Fonksiyonun kaç kere çağrıldığını sayan dekoratör."""
+    @wraps(fonk)
+    def sarmalayici(*args, **kwargs):
+        sarmalayici.cagri += 1
+        return fonk(*args, **kwargs)
+    sarmalayici.cagri = 0
+    return sarmalayici
