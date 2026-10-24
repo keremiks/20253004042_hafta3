@@ -32,7 +32,7 @@ def log_cagri(fonk):
     """Çağrı öncesi ve sonrası bilgileri yazdıran dekoratör."""
     @wraps(fonk)
     def sarmalayici(*args, **kwargs):
-        # Argümanları hocanın istediği formata çeviriyoruz
+      # Argümanları hocanın istediği formata çeviriyoruz
         arg_listesi = [repr(a) for a in args]
         kwarg_listesi = [f"{k}={repr(v)}" for k, v in kwargs.items()]
         tum_arglar = ", ".join(arg_listesi + kwarg_listesi)
