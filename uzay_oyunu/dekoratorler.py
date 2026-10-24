@@ -44,3 +44,27 @@ def log_cagri(fonk):
         print(f"<<- {fonk.__name__} {repr(sonuc)}")
         return sonuc
     return sarmalayici
+def sinirla(alt, ust):
+    """Dekore edilen fonksiyonun ilk argümanının belirtilen aralıkta olmasını zorunlu kılar."""
+    def dekorator(fonk):
+        # functools'dan wraps zaten yukarıda import edilmiştir (sure_olc için)
+        from functools import wraps 
+        @wraps(fonk)
+        def sarmalayici(*args, **kwargs):
+          
+            deger = args[0]
+            
+            # Değer sınırlar içinde mi kontrol et
+            if not (alt <= deger <= ust):
+            
+                raise ValueError(f"{fonk.__name__}: {deger} değeri {alt}-{ust} aralığında değil")
+                
+            return fonk(*args, **kwargs)
+        return sarmalayici
+    return dekorator
+
+
+@sinirla(0, 100)
+def yakit_harca(miktar):
+    """100 birimlik depodan harcanan miktarı düşer ve kalanı döndürür."""
+    return 100 - miktar

@@ -77,3 +77,28 @@ def test_harita_komutu_ciktisi():
     durum = {"konum": "dünya", "baglantilar": {"dünya": ["orion", "mars"]}}
     sonuc = KOMUTLAR["harita"][0](durum)
     assert sonuc == "orion, mars"
+# --- GÖREV 5 TESTLERİ (Sınırlandıran Dekoratör) ---
+from uzay_oyunu.dekoratorler import sinirla, yakit_harca
+
+def test_sinirla_normal_deger():
+    # 30 harcarsan 70 kalır 
+    assert yakit_harca(30) == 70
+
+def test_sinirla_alt_sinir():
+    # Tam 0 sınırında sorunsuz çalışmalı
+    assert yakit_harca(0) == 100
+
+def test_sinirla_ust_sinir():
+    # Tam 100 sınırında sorunsuz çalışmalı
+    assert yakit_harca(100) == 0
+
+def test_sinirla_aralik_disi_ust_sinir():
+    # 100'den büyük değer girilince ValueError vermeli ve hata mesajı birebir tutmalı
+    with pytest.raises(ValueError) as hata:
+        yakit_harca(150)
+    assert "yakit_harca: 150 değeri 0-100 aralığında değil" in str(hata.value)
+
+def test_sinirla_aralik_disi_alt_sinir():
+    # 0'dan küçük (negatif) değer girilince ValueError vermeli
+    with pytest.raises(ValueError):
+        yakit_harca(-10)
